@@ -35,7 +35,7 @@ struct ExpenseListView: View {
                     Button {
                         
                     } label: {
-                        Image(systemName: "lightbulb.led.wide")
+                        Image(systemName: "line.3.horizontal.decrease")
                     }
                 }
                 
@@ -47,6 +47,7 @@ struct ExpenseListView: View {
                     }
                 }
                 
+                ToolbarSpacer(.fixed, placement: .topBarTrailing)
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showAddExpenseSheet = true
