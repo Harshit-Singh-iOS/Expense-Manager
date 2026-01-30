@@ -28,7 +28,7 @@ struct DashExpenseCategoryView: View {
                     ForEach(categoryAmounts, id: \.0.id) { cat in
                         VStack(spacing: 8) {
                             Text(cat.0.name)
-                            Text(cat.1, format: .currency(code: "USD"))
+                            Text(cat.1, format: .currency(code: Currency.USD.code))
                         }
                         .padding()
                         .frame(width: 140, height: 140)

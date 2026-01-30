@@ -18,7 +18,7 @@ struct AddExpenseView: View {
     @State private var date: Date = .now
     @State private var name: String = ""
     @State private var amount: Double = 0
-    @State private var currency: String = "USD"
+    @State private var selectedCurrency: Currency = .USD
     @State private var category: ExpenseCategory?
     
     var body: some View {
@@ -41,17 +41,25 @@ struct AddExpenseView: View {
                 Text("Amount")
                     .bold()
                 
-                TextField("USD", text: $currency)
-                    .multilineTextAlignment(.trailing)
-                    .frame(width: 60)
-                    .disabled(true)
-                
                 Spacer()
                 
-                TextField("$0.00", value: $amount, format: .currency(code: "USD"))
+                TextField("$0.00", value: $amount, format: .currency(code: selectedCurrency.code))
                     .multilineTextAlignment(.trailing)
                     .keyboardType(.decimalPad)
                     .frame(width: 100)
+            }
+            
+            HStack {
+                Text("Currency*")
+                    .bold()
+                
+                Spacer()
+                Picker("Currency", selection: $selectedCurrency) {
+                    ForEach(Currency.allCases, id: \.self) { item in
+                        Text(item.code)
+                    }
+                }
+                .pickerStyle(.menu)
             }
             
             HStack {
@@ -79,19 +87,35 @@ struct AddExpenseView: View {
             
             Spacer()
             
+            HStack {
+                Text("*Update default currency in settings.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+            .padding(.bottom)
+            
             Button("Save") {
                 saveExpense()
             }
             .buttonStyle(.borderedProminent)
         }
         .padding()
+        .task {
+            setupDefaultCurrency()
+        }
+    }
+    
+    func setupDefaultCurrency() {
+        @AppStorage(UserDefaultString.UserCurrentSelectedCurrency.rawValue) var currencyCode = Currency.USD.code
+        self.selectedCurrency = Currency(rawValue: currencyCode) ?? .USD
     }
     
     private func saveExpense() {
         let name = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !name.isEmpty, let category else { return }
         
-        let newExpense = Expense(id: UUID(), name: name, category: category, amount: amount, currency: currency, dateOfExpense: date, lastUpdated: .now)
+        let newExpense = Expense(id: UUID(), name: name, category: category, amount: amount, currency: selectedCurrency.code, dateOfExpense: date, lastUpdated: .now)
 
         moc.insert(newExpense)
         dismiss()

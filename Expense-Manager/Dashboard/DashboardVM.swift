@@ -59,7 +59,6 @@ class DashboardVM {
             return
         }
         
-        print("startDate", startDate, "endDate", endDate)
         summaryPredicate = #Predicate { expense in
             expense.dateOfExpense >= startDate &&
             expense.dateOfExpense <= endDate

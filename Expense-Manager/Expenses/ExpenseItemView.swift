@@ -39,5 +39,5 @@ struct ExpenseItemView: View {
 }
 
 #Preview {
-    ExpenseItemView(expense: .init(id: .init(), name: "Table", category: .init(id: .init(), name: "Shopping"), amount: 35.43, currency: "USD", dateOfExpense: .now, lastUpdated: .now))
+    ExpenseItemView(expense: .init(id: .init(), name: "Table", category: .init(id: .init(), name: "Shopping"), amount: 35.43, currency: Currency.USD.code, dateOfExpense: .now, lastUpdated: .now))
 }
