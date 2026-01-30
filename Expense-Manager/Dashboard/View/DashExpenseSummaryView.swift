@@ -9,18 +9,18 @@ import SwiftUI
 import SwiftData
 
 struct DashExpenseSummaryView: View {
-    @Query private var expense: [Expense]
+    @Query private var expenses: [Expense]
     @State private var amount: Double = 0
         
     init(filter: Predicate<Expense>) {
-        _expense = Query(filter: filter)
+        _expenses = Query(filter: filter)
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Summary")
-                .font(.caption)
-            Text(amount, format: .currency(code: "USD"))
+                .font(.headline)
+            Text(amount, format: .currency(code: Currency.USD.code))
         }
         .task {
             processAmount()
@@ -29,7 +29,7 @@ struct DashExpenseSummaryView: View {
     
     private func processAmount() {
         var amount: Double = 0
-        expense.forEach { amount += $0.amount }
+        expenses.forEach { amount += $0.amount }
         self.amount = amount
     }
 }
