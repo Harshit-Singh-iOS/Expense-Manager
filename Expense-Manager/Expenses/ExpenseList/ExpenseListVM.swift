@@ -17,6 +17,7 @@ enum FilterOptions: String, CaseIterable {
     case ZA = "Z-A"
 }
 
+@Observable
 class ExpenseListVM {
     
 }

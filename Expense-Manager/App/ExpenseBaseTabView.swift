@@ -9,7 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct ExpenseBaseTabView: View {
-    @Environment(\.modelContext) private var moc
     @Query private var categories: [ExpenseCategory]
     
     var body: some View {
@@ -42,31 +41,14 @@ struct ExpenseBaseTabView: View {
                 Text("Settings")
             }
         }
-        .tabViewBottomAccessory(content: {
-            Button("Add Random") {
-                var comp = DateComponents()
-                comp.year = (2024...2027).randomElement()!
-                comp.month = (1...12).randomElement()!
-                comp.day = (1...28).randomElement()!
-                
-                let date = Calendar.current.date(from: comp)!
-                
-                moc.insert(Expense(
-                    id: .init(),
-                    name: ["table", "car","toy","food","drink","beer","lamp"].randomElement()!,
-                    category: categories.randomElement()!,
-                    amount: Double.random(in: 1...100),
-                    currency: Currency.USD.code,
-                    dateOfExpense: date,
-                    lastUpdated: .now))
-            }
-        })
         .onAppear {
             prepareCategories()
         }
     }
     
     private func prepareCategories() {
+        @Environment(\.modelContext) var moc
+        
         if categories.isEmpty {
             let cat1 = ExpenseCategory(id: .init(), name: "Rent")
             let cat2 = ExpenseCategory(id: .init(), name: "Grocery")
