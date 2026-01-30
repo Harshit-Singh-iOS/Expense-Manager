@@ -14,7 +14,9 @@ struct ExpenseListView: View {
     @Query private var categories: [ExpenseCategory]
     
     @State private var showAddExpenseSheet = false
+    @State private var showSortList = false
     
+    var vm: ExpenseListVM = .init()
     
     var body: some View {
         NavigationStack {
@@ -32,16 +34,24 @@ struct ExpenseListView: View {
             .navigationTitle("Expense")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        
+                    Menu {
+                        ForEach(FilterOptions.allCases, id: \.rawValue) { sortBy in
+                            Button(sortBy.rawValue) {
+                                
+                            }
+                        }
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease")
                     }
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        
+                    Menu {
+                        ForEach(SortOptions.allCases, id: \.rawValue) { sortBy in
+                            Button(sortBy.rawValue) {
+                                
+                            }
+                        }
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")
                     }
