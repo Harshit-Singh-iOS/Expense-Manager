@@ -11,6 +11,7 @@ import SwiftData
 struct CategoriesListView: View {
     @Environment(\.modelContext) private var moc
     @Query(sort: \ExpenseCategory.name) private var categories: [ExpenseCategory]
+    @Query private var expenses: [Expense]
     
     @State private var showAddCategory = false
     @State private var categoryName = ""
@@ -21,12 +22,7 @@ struct CategoriesListView: View {
                 ForEach(categories) { category in
                     Text(category.name)
                 }
-                .onDelete { indexSet in
-                    for index in indexSet {
-                        let item = categories[index]
-                        moc.delete(item)
-                    }
-                }
+                .onDelete(perform: deleteCategory)
             }
             .navigationTitle("Categories")
             .toolbar {
@@ -54,6 +50,19 @@ struct CategoriesListView: View {
             let new = ExpenseCategory(id: .init(), name: categoryName)
             moc.insert(new)
             self.categoryName.removeAll()
+        }
+    }
+    
+    private func deleteCategory(at indexSet: IndexSet) {
+        for index in indexSet {
+            let category = categories[index]
+            
+            for expense in expenses where expense.category == category {
+                expense.category = nil
+                moc.insert(expense)
+            }
+            
+            moc.delete(category)
         }
     }
 }
