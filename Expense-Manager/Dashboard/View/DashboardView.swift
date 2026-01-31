@@ -29,11 +29,13 @@ struct DashboardView: View {
                     
                     HStack {
                         DashExpenseSummaryView(filter: vm.summaryPredicate)
+                            .id(vm.expensePeriod)
                         Spacer()
                     }
                     .padding()
                     
                     DashExpenseCategoryView(filter: vm.summaryPredicate)
+                        .id(vm.expensePeriod)
                     
                     Spacer()
                 }
