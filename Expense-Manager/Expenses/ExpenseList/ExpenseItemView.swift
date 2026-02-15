@@ -13,7 +13,7 @@ struct ExpenseItemView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(expense.name)
                     .font(.headline)
                     .foregroundStyle(.primary)
@@ -23,7 +23,7 @@ struct ExpenseItemView: View {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            VStack(alignment: .trailing) {
+            VStack(alignment: .trailing, spacing: 6) {
                 Text(expense.amount, format: .currency(code: expense.currency))
                     .font(.callout)
                     .foregroundStyle(.primary)

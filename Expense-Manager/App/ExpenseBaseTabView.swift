@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ExpenseBaseTabView: View {
+    @Environment(\.modelContext) private var moc
     @Query private var categories: [ExpenseCategory]
     
     var body: some View {
@@ -41,14 +42,12 @@ struct ExpenseBaseTabView: View {
                 Text("Settings")
             }
         }
-        .onAppear {
-            prepareCategories()
+        .task {
+            prepareCategories(using: moc)
         }
     }
     
-    private func prepareCategories() {
-        @Environment(\.modelContext) var moc
-        
+    private func prepareCategories(using moc: ModelContext) {
         if categories.isEmpty {
             let cat1 = ExpenseCategory(id: .init(), name: "Rent")
             let cat2 = ExpenseCategory(id: .init(), name: "Grocery")

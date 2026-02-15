@@ -40,6 +40,16 @@ struct CategoriesListView: View {
             Button(role: .cancel) { }
             Button("Save") { addCategory() }
         }
+        .overlay {
+            if categories.isEmpty {
+                Button {
+                    showAddCategory = true
+                } label: {
+                    ContentUnavailableView("No categories", systemImage: "chart.pie", description: Text("Add a category."))
+                }
+                .tint(Color.primary)
+            }
+        }
 
     }
     

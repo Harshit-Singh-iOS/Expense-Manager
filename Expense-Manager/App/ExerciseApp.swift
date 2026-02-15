@@ -14,7 +14,9 @@ struct ExerciseApp: App {
         WindowGroup {
             ExpenseBaseTabView()
         }
-        .modelContainer(for: Expense.self)
-        .modelContainer(for: ExpenseCategory.self)
+        .modelContainer(for: [
+            Expense.self,
+            ExpenseCategory.self
+        ])
     }
 }

@@ -15,8 +15,8 @@ struct AddExpenseView: View {
     //@State private var categories: [ExpenseCategory] = [.init(id: UUID(), name: "asfasf"), .init(id: .init(), name: "asfs")] // For testing
     @Query(sort: \ExpenseCategory.name) private var categories: [ExpenseCategory]
     
-    @State var config: AddExpenseViewConfig
-    @State var expense: Expense
+    @State private var config: AddExpenseViewConfig
+    @State private var expense: Expense
     
     init(config: AddExpenseViewConfig) {
         self.config = config

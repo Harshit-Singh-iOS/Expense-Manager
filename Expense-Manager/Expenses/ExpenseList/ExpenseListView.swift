@@ -81,7 +81,16 @@ struct ExpenseListView: View {
             AddExpenseView(config: .Edit(expense: expense))
                 .presentationDetents([.medium])
         }
-        
+        .overlay {
+            if expenseList.isEmpty {
+                Button {
+                    showAddExpenseSheet = true
+                } label: {
+                    ContentUnavailableView("No expenses", systemImage: "banknote", description: Text("Add an expense."))
+                }
+                .tint(Color.primary)
+            }
+        }
     }
 }
 
